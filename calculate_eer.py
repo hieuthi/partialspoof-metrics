@@ -103,6 +103,7 @@ if __name__ == "__main__":
   parser.add_argument('--resolution', type=int, default=8000, help="Threshold resolution.")
   parser.add_argument('--scoreindex', type=int, default=1, help="Index of the score column.")
   parser.add_argument('--unit', type=float, default=0.0, help="Segment duration if unit>0.0 else utterance-based.")
+  parser.add_argument('--zoom', type=int, default=1, help="Zoom in or out to get finer or coaster scores")
   parser.add_argument('--negative_class', action="store_true", help="Using score of the negative class")
   parser.add_argument('--minval', type=float, default=-2.0, help="Score lower bound.")
   parser.add_argument('--maxval', type=float, default=2.0, help="Score higher bound.")
@@ -115,10 +116,36 @@ if __name__ == "__main__":
   tag = "Utterance-based" if args.unit == 0 else f"{args.unit}s Segment-based"
   logger.info(f"INFO: Calculate {tag} EER using {resolution}-bucket threshold NAGATIVE_CLASS={args.negative_class}")
 
-  labs = load_partialspoof_labels(args.labpath, unit=args.unit)
-  logger.info(f"INFO: Loaded {len(labs)} labels from {args.labpath} with UNIT={args.unit} (0 means utterance-based)")
+  if args.zoom == 0:
+      unit_cal = 0.0
+  elif args.zoom > 0:
+      unit_cal = args.unit / args.zoom
+  else:
+      unit_cal = args.unit * (-args.zoom)
+
+  labs = load_partialspoof_labels(args.labpath, unit=unit_cal)
+  logger.info(f"INFO: Loaded {len(labs)} labels from {args.labpath} with UNIT_INPUT={args.unit} and UNIT_CAL={unit_cal} (0 means utterance-based)")
   scos, minscore, maxscore = load_scores(args.scopath, scoreindex=args.scoreindex, negative_class=args.negative_class)
   logger.info(f"INFO: Loaded {len(scos)} scores from {args.scopath} INDEX={args.scoreindex}")
+  if args.zoom > 1:
+      for name in scos:
+          scos[name] = np.repeat(np.array(scos[name]),args.zoom).tolist()
+  elif args.zoom < -1:
+      for name in scos:
+          item, itemlen = scos[name], len(scos[name])
+          if itemlen % (-args.zoom) > 0:
+              item = np.pad(item,(0,-args.zoom-(itemlen%(-args.zoom))), 'edge')
+          item = np.reshape(item, (-1, -args.zoom))
+          item = np.min(item, axis=1) if args.negative_class else np.max(item, axis=1)
+          scos[name] = item
+  elif args.zoom==0:
+      for name in scos:
+          item, itemlen = scos[name], len(scos[name])
+          item = np.min(item) if args.negative_class else np.max(item)
+          scos[name] = [ item ]
+
+
+
 
   end     = time.time()
   elapsed = (end-start)/60
@@ -143,6 +170,8 @@ if __name__ == "__main__":
       f.write(f"EER={eer}\n")
       f.write(f"Threshold={threshold}\n")
       f.write(f"Margin={margin}\n")
+      f.write(f"unit_input={args.unit}\n")
+      f.write(f"unit_cal={unit_cal}\n")
       f.write(f"minscore={minscore}\n")
       f.write(f"maxscore={maxscore}\n")
       f.write(f"minval={args.minval}\n")
