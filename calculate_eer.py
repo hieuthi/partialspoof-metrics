@@ -63,22 +63,6 @@ def load_partialspoof_labels(filepath, unit=0.0, sensitivity=0.0):
         labs[name] = segs_to_lab(fakesegs, dur, unit=unit, sensitivity=sensitivity)
   return labs
 
-def load_normalized_scores(filepath, scoreindex=1, negative_class=False):
-  scos, minscore, maxscore = {}, math.inf, -math.inf
-  with open(filepath, 'r') as f:
-    for line in f:
-      args  = line.strip().split()
-      name, score = args[0], float(args[scoreindex])
-      if name in scos:
-        scos[name].append(score)
-      else:
-        scos[name] = [score]
-      minscore = score if score < minscore else minscore
-      maxscore = score if score > maxscore else maxscore
-  for name in scos:
-    scos[name] = score if not negative_class else 1 - score
-  return scos, minscore, maxscore
-
 def load_scores(filepath, scoreindex=1, negative_class=False):
   scos, minscore, maxscore = {}, math.inf, -math.inf
   with open(filepath, 'r') as f:
@@ -143,8 +127,6 @@ if __name__ == "__main__":
           item, itemlen = scos[name], len(scos[name])
           item = np.min(item) if args.negative_class else np.max(item)
           scos[name] = [ item ]
-
-
 
 
   end     = time.time()
