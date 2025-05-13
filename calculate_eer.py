@@ -120,12 +120,12 @@ if __name__ == "__main__":
           if itemlen % (-args.zoom) > 0:
               item = np.pad(item,(0,-args.zoom-(itemlen%(-args.zoom))), 'edge')
           item = np.reshape(item, (-1, -args.zoom))
-          item = np.min(item, axis=1) if args.negative_class else np.max(item, axis=1)
+          item = np.max(item, axis=1)
           scos[name] = item
   elif args.zoom==0:
       for name in scos:
           item, itemlen = scos[name], len(scos[name])
-          item = np.min(item) if args.negative_class else np.max(item)
+          item = np.max(item)
           scos[name] = [ item ]
 
 
@@ -136,8 +136,7 @@ if __name__ == "__main__":
 
   eer, threshold, margin, fpr, fnr, counter = compute_eer(labs, scos, resolution=resolution, minval=args.minval, maxval=args.maxval)
 
-  threshold = 1 - threshold if args.negative_class else threshold
-  print(f"{eer*100:.2f} {margin*100:.2f} {threshold:.4f}\n")
+  print(f"{eer*100:.2f} {margin*100:.2f} {threshold:.4f} negative={args.negative_class}\n")
   sys.stdout.flush()
 
   end     = time.time()
