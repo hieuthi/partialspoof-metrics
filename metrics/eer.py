@@ -26,7 +26,7 @@ def _calculate_eer(fpr, fnr):
   margin = np.abs(fpr - fnr)
   idxmin = np.argmin(margin)
   eer       = (fpr[idxmin]+fnr[idxmin])/2
-  threshold = (idxmin+1) / margin.shape[0]
+  threshold = idxmin / (margin.shape[0]-1)
   return eer, threshold, margin[idxmin]
 
 def _count_samples(labs, scos, resolution=8000, counter=None, minval=-2.0, maxval=2.0):

@@ -17,7 +17,7 @@ import warnings
 
 if __name__ == "__main__":
   parser = argparse.ArgumentParser(description="Calculate Accuracy Precision Recall and F1 from the EER result")
-  parser.add_argument('--loadpath', type=str, default=None, help="Path to the EER result directory.")
+  parser.add_argument('--loadpath', type=str, default=None, required=True, help="Path to the EER result directory.")
   parser.add_argument('--threshold', type=float, default=0.5, help="The threshold to calculate accuracy")
   parser.add_argument('--eer_threshold', action="store_true", help="Using EER threshold for calculation")
   parser.add_argument('--recall', type=float, default=0.0, help="Calculate at a specific recall value")
@@ -27,22 +27,19 @@ if __name__ == "__main__":
 
   minval, maxval = -2.0, 2.0
   resolution = 8000
-  negative_class = False
   with open(f"{args.loadpath}/result.txt", 'r') as f:
     for line in f:
       vargs = line.strip().split("=")
-      if vargs[0] == "minval":
+      if vargs[0].lower() == "minval":
         minval = float(vargs[1])
-      elif vargs[0] == "maxval":
+      elif vargs[0].lower() == "maxval":
         maxval = float(vargs[1])
-      elif vargs[0] == "resolution":
+      elif vargs[0].lower() == "resolution":
         resolution = int(vargs[1])
-      elif vargs[0] == "Threshold":
+      elif vargs[0].lower() == "threshold":
         if args.eer_threshold:
           threshold = float(vargs[1])
-      elif vargs[0] == "negative_class":
-          if vargs[1] == "True":
-              negative_class = True
+
 
     counter = np.load(f"{args.loadpath}/counter.npy")
     assert counter.shape[1] == resolution + 1, "ERROR: resolution does not equal with counter array length"
@@ -64,13 +61,11 @@ if __name__ == "__main__":
             if recall[i] > args.recall:
                 index = i
                 threshold = index * 1.0 / resolution * (maxval-minval) + minval
+    if precision[index] == 0 and recall[index] == 0:
+      f1 = 0
+    else:
+      f1 = 2*precision[index]*recall[index] / (precision[index]+recall[index])
 
-    f1 = 2*precision[index]*recall[index] / (precision[index]+recall[index])
+    print(f"threshold={threshold:.04f} index={index} accuracy={accuracy[index]*100:.02f}% precision={precision[index]*100:.02f}% recall={recall[index]*100:.02f}% f1={f1*100:.02f}%")
 
-    print(f"Threshold={threshold:.04f}")
-    print(f"Index={index}")
-    print(f"Accuracy={accuracy[index]*100:.02f}")
-    print(f"Precision={precision[index]*100:.02f}")
-    print(f"Recall={recall[index]*100:.02f}")
-    print(f"F1={f1*100:.02f}")
 
