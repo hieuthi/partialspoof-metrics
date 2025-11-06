@@ -15,13 +15,18 @@ Run the script in `examples/`` directory for testing.
 ==== Result Summary ====
 
 Utterance EER: 1.48%
+Utterance EER Threshold: threshold=0.8056 index=7014 accuracy=98.52% precision=99.83% recall=98.52% f1=99.17%
 
 Frame-based EER
-0.02    0.04    0.08    0.16    0.32    0.64
+0.02s   0.04s   0.08s   0.16s   0.32s   0.64s
 13.72   14.46   15.29   11.60   9.63    7.24
 
+Upscaled Utterance-based EER
+0.02s   0.04s   0.08s   0.16s   0.32s   0.64s
+1.55    1.50    1.55    1.66    1.90    2.24
+
 Millisecond EER
-0.02    0.04    0.08    0.16    0.32    0.64
+0.02s   0.04s   0.08s   0.16s   0.32s   0.64s
 14.62   16.29   18.27   20.31   26.27   34.54
 ```
 

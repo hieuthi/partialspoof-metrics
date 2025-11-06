@@ -33,6 +33,14 @@ for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
                           --unit ${unit} \
                           --scoreindex 3 
 
+  echo "$0: calculate Utterance-based EER upscaled from ${unit}s score"
+  python ../calculate_eer.py --labpath ${labelfile} \
+                          --scopath scores/${resultdir}/unit${unit}.score \
+                          --savepath results/${resultdir}_utt${unit} \
+                          --unit ${unit} \
+                          --scoreindex 3 \
+                          --zoom 0
+
   echo "$0: calculate millisecond EER from ${unit}s score"
   python ../calculate_mseer.py --labpath ${labelfile} \
                           --scopath scores/${resultdir}/unit${unit}.score \
@@ -46,12 +54,14 @@ echo "==== Result Summary ===="
 echo
 eer=$( grep "eer=" results/${resultdir}_utt/result.txt | awk -F"=" '{ printf "%.2f", $2*100}')
 echo "Utterance EER: ${eer}%"
+printf "Utterance EER Threshold: "
+python ../calculate_accuracy.py --loadpath results/${resultdir}_utt/ --eer_threshold
 
 
 echo
 echo "Frame-based EER"
 for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
-  printf "${unit}\t"
+  printf "${unit}s\t"
 done
 echo
 for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
@@ -61,9 +71,21 @@ done
 echo
 
 echo
+echo "Upscaled Utterance-based EER"
+for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
+  printf "${unit}s\t"
+done
+echo
+for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
+  eer=$( grep "eer=" results/${resultdir}_utt${unit}/result.txt | awk -F"=" '{ printf "%.2f", $2*100}')
+  printf "${eer}\t"
+done
+echo
+
+echo
 echo "Millisecond EER"
 for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
-  printf "${unit}\t"
+  printf "${unit}s\t"
 done
 echo
 for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
