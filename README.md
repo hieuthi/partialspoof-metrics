@@ -1,6 +1,6 @@
-# partialspoof-metrics
+# PartialSpoof Metrics
 
-This repository dedicated to metrics for partial spoof evaluation
+This repository focus on metrics for partial spoof tasks.
 
 ## Support metrics
 - Utterance-based EER
@@ -9,9 +9,25 @@ This repository dedicated to metrics for partial spoof evaluation
   - Same idea as [Range-based EER](https://arxiv.org/abs/2305.17739) but simpler and faster implementation
 - Accuracy, Precision, Recall, and F1
 
+## Testing
+Run the script in `examples/`` directory for testing.
+```
+==== Result Summary ====
+
+Utterance EER: 1.48%
+
+Frame-based EER
+0.02    0.04    0.08    0.16    0.32    0.64
+13.72   14.46   15.29   11.60   9.63    7.24
+
+Millisecond EER
+0.02    0.04    0.08    0.16    0.32    0.64
+14.62   16.29   18.27   20.31   26.27   34.54
+```
+
 ## Contributions
-Metrics are very important for research evaluation and can be very tricky to implement.
-If you find any bug or unsastifactory implementation or want to add new test feel free to create a new topic in issue.
+Metrics are very important for research evaluation but can very tricky to implement.
+If you find any bug or unsastifactory implementation or want to add new test case feel free to create a new topic in issue.
 
 ## Citation
 Please cite this paper if you used this package for your research
@@ -26,4 +42,4 @@ Please cite this paper if you used this package for your research
 ```
 
 ## License
-MIT License
+[MIT License](LICENSE)
