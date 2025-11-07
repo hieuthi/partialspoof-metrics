@@ -5,6 +5,7 @@ This repository focus on metrics for partial spoof tasks.
 ## Support metrics
 - Utterance-based EER
 - Frame-based EER
+  - Support calculate result at higher or lower resolution than score unit
 - Millisecond EER
   - Same idea as [Range-based EER](https://arxiv.org/abs/2305.17739) but simpler and faster implementation
 - Accuracy, Precision, Recall, and F1
@@ -16,6 +17,7 @@ Run the script in `examples/`` directory for testing.
 
 Utterance EER: 1.48%
 Utterance EER Threshold: threshold=0.8056 index=7014 accuracy=98.52% precision=99.83% recall=98.52% f1=99.17%
+95% Recall Threshold: threshold=0.9264 index=7316 accuracy=95.50% precision=99.96% recall=95.02% f1=97.43%
 
 Frame-based EER
 0.02s   0.04s   0.08s   0.16s   0.32s   0.64s

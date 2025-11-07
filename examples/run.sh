@@ -56,6 +56,8 @@ eer=$( grep "eer=" results/${resultdir}_utt/result.txt | awk -F"=" '{ printf "%.
 echo "Utterance EER: ${eer}%"
 printf "Utterance EER Threshold: "
 python ../calculate_accuracy.py --loadpath results/${resultdir}_utt/ --eer_threshold
+printf "95%% Recall Threshold: "
+python ../calculate_accuracy.py --loadpath results/${resultdir}_utt/ --recall 0.95
 
 
 echo
