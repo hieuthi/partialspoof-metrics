@@ -11,13 +11,14 @@ This repository focus on metrics for partial spoof tasks.
 - Accuracy, Precision, Recall, and F1
 
 ## Testing
-Run the script in `examples/`` directory for testing.
+Run the script in `examples/` directory for testing.
 ```
 ==== Result Summary ====
 
 Utterance EER: 1.48%
 Utterance EER Threshold: threshold=0.8056 index=7014 accuracy=98.52% precision=99.83% recall=98.52% f1=99.17%
 95% Recall Threshold: threshold=0.9264 index=7316 accuracy=95.50% precision=99.96% recall=95.02% f1=97.43%
+95% Precision Threshold: threshold=0.2864 index=5716 accuracy=95.26% precision=95.01% recall=99.96% f1=97.42%
 
 Frame-based EER
 0.02s   0.04s   0.08s   0.16s   0.32s   0.64s

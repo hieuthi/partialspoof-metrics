@@ -21,6 +21,8 @@ if __name__ == "__main__":
   parser.add_argument('--threshold', type=float, default=0.5, help="The threshold to calculate accuracy")
   parser.add_argument('--eer_threshold', action="store_true", help="Using EER threshold for calculation")
   parser.add_argument('--recall', type=float, default=0.0, help="Calculate at a specific recall value")
+  parser.add_argument('--precision', type=float, default=0.0, help="Calculate at a specific precision value")
+
 
   args       = parser.parse_args()
   threshold  = args.threshold
@@ -61,6 +63,12 @@ if __name__ == "__main__":
             if recall[i] > args.recall:
                 index = i
                 threshold = index * 1.0 / resolution * (maxval-minval) + minval
+    elif args.precision > 0:
+        for i in range(len(precision)-1, 0, -1):
+            if precision[i] > args.precision:
+                index = i
+                threshold = index * 1.0 / resolution * (maxval-minval) + minval
+
     if precision[index] == 0 and recall[index] == 0:
       f1 = 0
     else:

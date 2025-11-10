@@ -19,35 +19,35 @@ resultdir=baseline_e55_ps-eval
 
 mkdir -p results
 
-echo "$0: calculate utterance-based EER"
-python ../calculate_eer.py --labpath ${labelfile} \
-                          --scopath scores/${resultdir}/utt.score \
-                          --savepath results/${resultdir}_utt \
-                          --scoreindex 2
+# echo "$0: calculate utterance-based EER"
+# python ../calculate_eer.py --labpath ${labelfile} \
+#                           --scopath scores/${resultdir}/utt.score \
+#                           --savepath results/${resultdir}_utt \
+#                           --scoreindex 2
 
-for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
-  echo "$0: calculate $unit frame-based EER"
-  python ../calculate_eer.py --labpath ${labelfile} \
-                          --scopath scores/${resultdir}/unit${unit}.score \
-                          --savepath results/${resultdir}_${unit} \
-                          --unit ${unit} \
-                          --scoreindex 3 
+# for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
+#   echo "$0: calculate $unit frame-based EER"
+#   python ../calculate_eer.py --labpath ${labelfile} \
+#                           --scopath scores/${resultdir}/unit${unit}.score \
+#                           --savepath results/${resultdir}_${unit} \
+#                           --unit ${unit} \
+#                           --scoreindex 3 
 
-  echo "$0: calculate Utterance-based EER upscaled from ${unit}s score"
-  python ../calculate_eer.py --labpath ${labelfile} \
-                          --scopath scores/${resultdir}/unit${unit}.score \
-                          --savepath results/${resultdir}_utt${unit} \
-                          --unit ${unit} \
-                          --scoreindex 3 \
-                          --zoom 0
+#   echo "$0: calculate Utterance-based EER upscaled from ${unit}s score"
+#   python ../calculate_eer.py --labpath ${labelfile} \
+#                           --scopath scores/${resultdir}/unit${unit}.score \
+#                           --savepath results/${resultdir}_utt${unit} \
+#                           --unit ${unit} \
+#                           --scoreindex 3 \
+#                           --zoom 0
 
-  echo "$0: calculate millisecond EER from ${unit}s score"
-  python ../calculate_mseer.py --labpath ${labelfile} \
-                          --scopath scores/${resultdir}/unit${unit}.score \
-                          --savepath results/${resultdir}_ms${unit} \
-                          --unit ${unit} \
-                          --scoreindex 3
-done
+#   echo "$0: calculate millisecond EER from ${unit}s score"
+#   python ../calculate_mseer.py --labpath ${labelfile} \
+#                           --scopath scores/${resultdir}/unit${unit}.score \
+#                           --savepath results/${resultdir}_ms${unit} \
+#                           --unit ${unit} \
+#                           --scoreindex 3
+# done
 
 
 echo "==== Result Summary ===="
@@ -58,6 +58,8 @@ printf "Utterance EER Threshold: "
 python ../calculate_accuracy.py --loadpath results/${resultdir}_utt/ --eer_threshold
 printf "95%% Recall Threshold: "
 python ../calculate_accuracy.py --loadpath results/${resultdir}_utt/ --recall 0.95
+printf "95%% Precision Threshold: "
+python ../calculate_accuracy.py --loadpath results/${resultdir}_utt/ --precision 0.95
 
 
 echo
