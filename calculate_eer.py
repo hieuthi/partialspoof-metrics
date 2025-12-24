@@ -123,7 +123,7 @@ if __name__ == "__main__":
       f.write(f"maxscore={maxscore}\n")
       f.write(f"minval={args.minval}\n")
       f.write(f"maxval={args.maxval}\n")
-      f.write(f"nagative_class={args.negative_class}\n")
+      f.write(f"negative_class={args.negative_class}\n")
       f.write(f"resolution={resolution}\n")
       f.write(f"scoreindex={args.scoreindex}\n")
       f.write(f"labpath={args.labpath}\n")

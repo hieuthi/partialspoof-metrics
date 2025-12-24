@@ -2,13 +2,14 @@
 
 This repository focus on metrics for partial spoof tasks.
 
-## Support metrics
+## Support features/metrics
 - Utterance-based EER
 - Frame-based EER
   - Support calculate result at higher or lower resolution than score unit
 - Millisecond EER
   - Same idea as [Range-based EER](https://arxiv.org/abs/2305.17739) but simpler and faster implementation
 - Accuracy, Precision, Recall, and F1
+- Support combining results
 
 ## Testing
 Run the script in `examples/` directory for testing.
