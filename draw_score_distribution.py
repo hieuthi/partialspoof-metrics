@@ -25,7 +25,6 @@ if __name__ == "__main__":
   parser.add_argument('--xmax', type=float, default=None, help="Maximum x axis value")
   parser.add_argument('--ymax', type=float, default=None, help="Maximum y axis value")
 
-
   args       = parser.parse_args()
 
   resolution = None
@@ -67,19 +66,23 @@ if __name__ == "__main__":
   plt.bar(x[minidx:maxidx],probability[0][minidx:maxidx], width=(xmax-xmin)/(maxidx-minidx+1))
   plt.bar(x[minidx:maxidx],probability[1][minidx:maxidx], width=(xmax-xmin)/(maxidx-minidx+1))
 
-  if args.threshold:
-      for thres in args.threshold:
-        plt.axvline(x=thres, color='black', linestyle='-', linewidth=0.5)
-        plt.text(thres+0.1, 0.4, f"{thres:.2f}", fontsize=10, color='black')
-  plt.axvline(x=eer_threshold, color='red', linestyle='-', linewidth=1)
-  plt.text(eer_threshold+0.1, 0.2, f"{eer_threshold:.2f}", fontsize=10, color='red')
-
-  plt.ylabel("Density (%)", fontsize=12)
-  plt.xlabel("Score", fontsize=12)
-
   plt.xlim(xmin, xmax)
   if args.ymax:
       plt.ylim(0, args.ymax)
+
+  xmin, xmax, ymin, ymax = plt.axis()
+  xunit = (xmax-xmin) / 100
+  yunit = (ymax-ymin) / 100
+
+  if args.threshold:
+      for thres in args.threshold:
+        plt.axvline(x=thres, color='black', linestyle='-', linewidth=0.5)
+        plt.text(thres+xunit, yunit*75, f"{thres:.2f}", fontsize=10, color='black')
+  plt.axvline(x=eer_threshold, color='red', linestyle='-', linewidth=1)
+  plt.text(eer_threshold+xunit, yunit*50, f"{eer_threshold:.2f}", fontsize=10, color='red')
+
+  plt.ylabel("Density (%)", fontsize=12)
+  plt.xlabel("Score", fontsize=12)
 
   plt.savefig(args.savepath)
 

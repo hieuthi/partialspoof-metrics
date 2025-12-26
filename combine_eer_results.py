@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 
-# Copyright (c) 2024 Hieu-Thi Luong (contact@hieuthi.com)
+# Copyright (c) 2025 Hieu-Thi Luong (contact@hieuthi.com)
 # MIT License
 
 """Combine multiple EER result directories"""
@@ -85,7 +85,7 @@ if __name__ == "__main__":
   eer, threshold, margin = _calculate_eer(fpr,fnr)
   threshold = threshold * (maxval-minval) + minval
 
-  print(f"eer={eer*100:.2f}% margin={margin*100:.2f}% threshold={threshold:.4f} negative={negative_class} n_loadpaths={len(args.loadpaths)}\n")
+  print(f"eer={eer*100:.2f}% margin={margin*100:.2f}% threshold={threshold:.4f} negative={negative_class} n_loadpaths={len(args.loadpaths)}")
 
   end     = time.time()
   elapsed = (end-start)/60

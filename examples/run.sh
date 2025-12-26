@@ -26,6 +26,13 @@ python ../calculate_eer.py --labpath ${labelfile} \
                           --savepath results/${resultdir}_utt \
                           --scoreindex 2
 
+echo "$0: Draw score distribution dentisy figure and save at results/${resultdir}_utt/score.pdf"
+python ../draw_score_distribution.py --loadpath results/${resultdir}_utt \
+                                    --savepath results/${resultdir}_utt/score.pdf \
+                                    --threshold 0.5 \
+                                    --xmin -0.5 \
+                                    --xmax 1.5
+
 for unit in 0.02 0.04 0.08 0.16 0.32 0.64; do
   echo "$0: calculate $unit frame-based EER"
   python ../calculate_eer.py --labpath ${labelfile} \

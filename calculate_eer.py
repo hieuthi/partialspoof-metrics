@@ -100,7 +100,7 @@ if __name__ == "__main__":
 
   eer, threshold, margin, fpr, fnr, counter = compute_eer(labs, scos, resolution=resolution, minval=args.minval, maxval=args.maxval)
 
-  print(f"eer={eer*100:.2f}% margin={margin*100:.2f}% threshold={threshold:.4f} negative={args.negative_class}\n")
+  print(f"eer={eer*100:.2f}% margin={margin*100:.2f}% threshold={threshold:.4f} negative={args.negative_class}")
   sys.stdout.flush()
 
   end     = time.time()

@@ -10,7 +10,7 @@ This repository focus on metrics for partial spoof tasks.
   - Same idea as [Range-based EER](https://arxiv.org/abs/2305.17739) but simpler and faster implementation
 - Accuracy, Precision, Recall, and F1
 - Support combining results
-- Support drawing score distribution
+- Support drawing score distribution figure
 
 ## Testing
 Run the script in `examples/` directory for testing.
